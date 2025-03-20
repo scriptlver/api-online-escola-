@@ -1,0 +1,140 @@
+swagger: '2.0'
+info:
+  title: API para simular um portal escolar
+  description: API para o portal da Escola Evolução
+  version: 1.0.0
+host: localhost:8080
+basePath: /v1
+schemes:
+  - http
+  - https
+
+definitions:
+  Aluno:
+    type: object
+    properties:
+      matricula:
+        type: string
+      nome:
+        type: string
+      cpf:
+        type: string
+      endereco:
+        type: string
+      serie:
+        type: string
+  
+  Professor:
+    type: object
+    properties:
+      matricula:
+        type: string
+      nome:
+        type: string
+      cpf:
+        type: string
+      endereco:
+        type: string
+      disciplina:
+        type: string
+
+parameters:
+  aluno-id:
+    name: matricula
+    in: path
+    description: Matrícula do aluno
+    type: string
+    required: true
+  professor-id:
+    name: matricula
+    in: path
+    description: Matrícula do professor
+    type: string
+    required: true
+
+paths:
+  /aluno:
+    post:
+      summary: Registra um novo aluno
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: aluno
+          required: true
+          schema:
+            $ref: '#/definitions/Aluno'
+      responses:
+        '201':
+          description: Novo aluno registrado
+          schema:
+            $ref: '#/definitions/Aluno'
+    get:
+      summary: Lista todos os alunos
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "Listagem de alunos"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Aluno"
+
+  /aluno/{matricula}:
+    get:
+      summary: Detalha um aluno
+      parameters:
+        - $ref: '#/parameters/aluno-id'
+      responses:
+        200:
+          description: 'Detalhes do aluno'
+          schema:
+            $ref: "#/definitions/Aluno"
+        404:
+          description: 'Aluno não encontrado'
+
+  /professor:
+    post:
+      summary: Registra um novo professor
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: professor
+          required: true
+          schema:
+            $ref: '#/definitions/Professor'
+      responses:
+        '201':
+          description: Novo professor registrado
+          schema:
+            $ref: '#/definitions/Professor'
+    get:
+      summary: Lista todos os professores
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "Listagem de professores"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Professor"
+
+  /professor/{matricula}:
+    get:
+      summary: Detalha um professor
+      parameters:
+        - $ref: '#/parameters/professor-id'
+      responses:
+        200:
+          description: 'Detalhes do professor'
+          schema:
+            $ref: "#/definitions/Professor"
+        404:
+          description: 'Professor não encontrado'
